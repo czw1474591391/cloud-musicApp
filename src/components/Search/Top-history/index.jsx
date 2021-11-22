@@ -1,10 +1,12 @@
 import { useHistory } from "react-router-dom";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { getSearchSuggest } from "../../../api/index";
+import { Search_Context } from "../index.jsx";
 import "./index.less";
 
 export const Top_History = () => {
   const History = useHistory();
+  const usecontext = useContext(Search_Context);
   const Ipt_Ref = useRef(null); //获取原生的DomInput节点
   const [SearchSuggest, SetSearchSuggest] = useState({});
   const Ipt_Change = async (e) => {
@@ -26,6 +28,7 @@ export const Top_History = () => {
               onClick={() => {
                 //点击列表时，将建议列表选中的值赋值给搜索框
                 Ipt_Ref.current.value = items.keyword;
+                usecontext.getSearchItems(items.keyword);
               }}
             >
               {items.keyword}
