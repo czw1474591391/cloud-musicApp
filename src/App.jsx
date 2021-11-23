@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Play_Control } from "./components/Play_Control/index";
 import { createContext, useState, useEffect } from "react";
 import { SearchPage } from "./components/Search";
+
 export const Context_App = createContext();
 const App = () => {
   const [SongThis_detailed, SetSongThis_detailed] = useState({});

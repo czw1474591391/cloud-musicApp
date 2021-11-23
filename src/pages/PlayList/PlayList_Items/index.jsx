@@ -2,6 +2,8 @@ import "./index.less";
 import { Context } from "../index.jsx"; //导入父组件中的CreateContext对象
 import { useState, useEffect, useContext } from "react";
 import { Context_App } from "../../../App";
+import PubSub from "pubsub-js";
+
 export const Playltems = (props) => {
   const [SongItems, SetSongItems] = useState([]);
   const res = useContext(Context); //接受父组件的传值
@@ -9,7 +11,13 @@ export const Playltems = (props) => {
   useEffect(() => {
     SetSongItems(res.SongList); //渲染数据
   });
-
+  const emitPlay = (item) => {
+    // 通过上下文得回调函数将孙组件的数据传递给根节点
+    AppCallback.callback(item);
+    PubSub.subscribeOnce("emitPlay", (fn, data) => {
+      data();
+    });
+  };
   return (
     <div className="playItems">
       <div className="playItems_top">
@@ -60,8 +68,7 @@ export const Playltems = (props) => {
                 width="200"
                 height="200"
                 onClick={() => {
-                  // 通过上下文得回调函数将孙组件的数据传递给根节点
-                  AppCallback.callback(items);
+                  emitPlay(items);
                 }}
               >
                 <path
