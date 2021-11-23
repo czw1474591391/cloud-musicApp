@@ -18,7 +18,6 @@ export const Top_History = () => {
   };
   //渲染搜索建议列表
   const RenderSuggest = () => {
-    console.log(Object.keys(SearchSuggest).length);
     if (Object.keys(SearchSuggest).length !== 0) {
       return (
         <ul className="Suggest_Itmes">
@@ -28,7 +27,7 @@ export const Top_History = () => {
               onClick={() => {
                 //点击列表时，将建议列表选中的值赋值给搜索框
                 Ipt_Ref.current.value = items.keyword;
-                usecontext.getSearchItems(items.keyword);
+                usecontext.getSearchItems(items.keyword); //子组件通过context触发父组件方法
               }}
             >
               {items.keyword}

@@ -6,7 +6,9 @@ import { getSearchResult } from "../../api/index";
 
 export const Search_Context = createContext({});
 export const SearchPage = () => {
+  console.log(Top_History());
   const getSearchItems = async (name) => {
+    //搜索方法由子组件触发
     const res = await getSearchResult(name);
     console.log(res);
   };
