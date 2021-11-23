@@ -26,7 +26,7 @@ export function getSearchSuggest(name = "林俊杰") {
     return res;
   });
 }
-
+//获取歌曲搜索结果
 export function getSearchResult(name = "林俊杰") {
   return axios.get(`${baseUrl}/search?keywords=${name}`).then((res) => {
     return res;
