@@ -2,6 +2,7 @@ import "./index.less";
 import { useState, useEffect, useContext, useRef } from "react";
 import { Context_App } from "../../App";
 import { Context } from "../../pages/PlayList/index";
+import PubSub from "pubsub-js";
 
 export const Play_Control = () => {
   const [SongThis, SetSongThis] = useState({
@@ -38,6 +39,8 @@ export const Play_Control = () => {
       audio_Cpm.current.pause();
     }
   };
+
+  PubSub.publish("emitPlay", play);
 
   const isRenderAuthor = () => {
     //判断数组数据是否存在并返回相关的数据
