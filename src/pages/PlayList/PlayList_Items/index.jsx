@@ -17,6 +17,7 @@ export const Playltems = (props) => {
     PubSub.subscribeOnce("emitPlay", (fn, data) => {
       data();
     });
+    //使用pubsub方法订阅兄弟组件的发布，并执行方法
   };
   return (
     <div className="playItems">

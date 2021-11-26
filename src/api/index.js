@@ -32,3 +32,16 @@ export function getSearchResult(name = "林俊杰") {
     return res;
   });
 }
+
+//根据歌曲id获取歌曲详情
+export function getSongDetails(id) {
+  return axios.get(`${baseUrl}/song/detail?id=${id}`).then((res) => {
+    return res;
+  });
+}
+//根据歌曲id获取当前歌曲歌词
+export function getSongLyrics(id) {
+  return axios.get(`${baseUrl}/lyric?id=${id}`).then((res) => {
+    return res;
+  });
+}

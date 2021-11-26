@@ -8,7 +8,6 @@ import { Context_App } from "../../App";
 export const Context = createContext({});
 export const PlayList = () => {
   const Location = useLocation();
-  const App_Context = useContext(Context_App);
   const [SongList, SetSongList] = useState([]);
   useEffect(() => {
     if (SongList.length === 0) {
@@ -28,13 +27,6 @@ export const PlayList = () => {
   };
   return (
     <>
-      {/* <button
-        onClick={() => {
-          App_Context.Appcallback(SongList.id);
-        }}
-      >
-        2222
-      </button> */}
       <Context.Provider value={{ SongList, aa }}>
         <SongListTop></SongListTop>
         <Playltems></Playltems>

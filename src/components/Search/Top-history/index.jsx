@@ -9,6 +9,7 @@ export const Top_History = () => {
   const usecontext = useContext(Search_Context);
   const Ipt_Ref = useRef(null); //获取原生的DomInput节点
   const [SearchSuggest, SetSearchSuggest] = useState({});
+  const [ul_Suggest, Setul_Suggest] = useState("block");
   const Ipt_Change = async (e) => {
     if (e.target.value !== "") {
       //将输入的关键字作为请求参数
@@ -16,24 +17,28 @@ export const Top_History = () => {
       SetSearchSuggest(res.data.result?.allMatch);
     }
   };
+
   //渲染搜索建议列表
   const RenderSuggest = () => {
     if (Object.keys(SearchSuggest).length !== 0) {
       return (
-        <ul className="Suggest_Itmes">
-          {SearchSuggest.map((items, index) => (
-            <li
-              key={index}
-              onClick={() => {
-                //点击列表时，将建议列表选中的值赋值给搜索框
-                Ipt_Ref.current.value = items.keyword;
-                usecontext.getSearchItems(items.keyword); //子组件通过context触发父组件方法
-              }}
-            >
-              {items.keyword}
-            </li>
-          ))}
-        </ul>
+        <>
+          <ul className="Suggest_Itmes" style={{ display: ul_Suggest }}>
+            {SearchSuggest.map((items, index) => (
+              <li
+                key={index}
+                onClick={() => {
+                  //点击列表时，将建议列表选中的值赋值给搜索框
+                  Ipt_Ref.current.value = items.keyword;
+                  usecontext.getSearchItems(items.keyword); //子组件通过context触发父组件方法
+                  Setul_Suggest("none"); //点击时将建议框收起
+                }}
+              >
+                {items.keyword}
+              </li>
+            ))}
+          </ul>
+        </>
       );
     }
   };
@@ -60,8 +65,13 @@ export const Top_History = () => {
         className="Search_Ipt"
         placeholder="想听点什么"
         ref={Ipt_Ref}
-        onKeyUp={(e) => {
+        onClick={() => {
+          //搜索框聚焦展开智能提示;
+          Setul_Suggest("block");
+        }}
+        onChange={(e) => {
           Ipt_Change(e);
+          Setul_Suggest("block");
         }}
       />
       {RenderSuggest()}

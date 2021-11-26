@@ -1,8 +1,9 @@
 import "./index.less";
 import { useState, useEffect, useContext, useRef } from "react";
 import { Context_App } from "../../App";
-import { Context } from "../../pages/PlayList/index";
 import PubSub from "pubsub-js";
+import { getPlayList } from "../../api/index";
+import { useHistory } from "react-router";
 
 export const Play_Control = () => {
   const [SongThis, SetSongThis] = useState({
@@ -17,6 +18,7 @@ export const Play_Control = () => {
     ar: [{ id: 48576789, name: "香菜", tns: Array(0), alias: Array(0) }],
   });
   const [playBtnIsShow, SetplayBtnIsShow] = useState(true); //设置播放暂停按钮的切换显示
+  const History = useHistory();
   const AppCallback = useContext(Context_App); //接受根组件上下文对象传递的当前歌曲信
 
   useEffect(() => {
@@ -40,15 +42,32 @@ export const Play_Control = () => {
     }
   };
 
-  PubSub.publish("emitPlay", play);
-
+  PubSub.publish("emitPlay", play); //使用pubsub-js发布play方法(兄弟组件通信)
+  PubSub.subscribe("Search_Play", (msg, data) => {
+    SetSongThis(data);
+    play();
+  });
   const isRenderAuthor = () => {
     //判断数组数据是否存在并返回相关的数据
-    return Object.keys(SongThis).length === 0 ? "暂无数据" : SongThis?.ar[0]?.name;
+    // return Object.keys(SongThis).length === 0 ? "暂无数据" : SongThis?.ar[0]?.name;
+  };
+
+  const ShowLyrics = (id) => {
+    History.push({
+      pathname: "/detailslyrics",
+      params: {
+        id,
+      },
+    });
   };
   return (
     <>
-      <div className="play_control">
+      <div
+        className="play_control"
+        onClick={() => {
+          ShowLyrics(SongThis?.id);
+        }}
+      >
         <div className="play_control_left">
           <img src={SongThis.al?.picUrl} alt="" />
           <div className="title">
@@ -57,9 +76,9 @@ export const Play_Control = () => {
                 ? SongThis?.name?.substring(0, 7) + "..."
                 : SongThis?.name}
             </p>
-            <p>{isRenderAuthor()}</p>
+            {/* <p>{isRenderAuthor()}</p> */}
             {/* <p>{SongThis?.ar[0]?.name}</p> */}
-            {/* <p>{SongThis.ar[0].name == null ? SongThis.ar[0].name : ""}</p> */}
+            {/* <p>{SongThis?.ar[0]?.name == null ? SongThis.ar[0].name : ""}</p> */}
           </div>
         </div>
         <div className="play_control_right">

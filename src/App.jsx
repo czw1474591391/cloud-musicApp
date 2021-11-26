@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Play_Control } from "./components/Play_Control/index";
 import { createContext, useState, useEffect } from "react";
 import { SearchPage } from "./components/Search";
+import { DetailsLyrics } from "./pages/Details_Lyrics/index";
 
 export const Context_App = createContext();
 const App = () => {
@@ -22,7 +23,8 @@ const App = () => {
           {/* 默认路由匹配Home这个组件 */}
           <Route path="/" exact component={Home}></Route>
           <Route path="/playlist" exact component={PlayList}></Route>
-          <Route path="/search" exact component={SearchPage}></Route>
+          <Route path="/search" component={SearchPage}></Route>
+          <Route path="/detailslyrics" component={DetailsLyrics}></Route>
           <Play_Control></Play_Control>
         </Context_App.Provider>
       </Router>
